@@ -11,7 +11,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(): void
+    public function boot() : void
     {
         // $this->loadTranslationsFrom(__DIR__.'/../lang', 'red-jasmine.auth');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'red-jasmine.auth');
@@ -30,9 +30,14 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register(): void
+    public function register() : void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/auth.php', 'red-jasmine.auth');
+        $this->mergeConfigFrom(__DIR__ . '/../config/auth.php', 'red-jasmine.auth');
+
+
+        \Illuminate\Support\Facades\Auth::provider('eloquent-red-jasmine', function ($app, array $config) {
+            return new EloquentUserProvider($app['hash'], $config['model']);
+        });
 
         // Register the service the package provides.
         $this->app->singleton('red-jasmine.auth', function ($app) {
@@ -47,7 +52,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['red-jasmine.auth'];
+        return [ 'red-jasmine.auth' ];
     }
 
     /**
@@ -55,11 +60,11 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function bootForConsole(): void
+    protected function bootForConsole() : void
     {
         // Publishing the configuration file.
         $this->publishes([
-                             __DIR__.'/../config/auth.php' => config_path('red-jasmine/auth.php'),
+                             __DIR__ . '/../config/auth.php' => config_path('red-jasmine/auth.php'),
                          ], 'red-jasmine.auth.config');
 
         // Publishing the views.
