@@ -4,57 +4,36 @@ namespace RedJasmine\Auth;
 
 
 use Illuminate\Auth\EloquentUserProvider as BaseEloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use RedJasmine\Auth\Models\User;
+use RedJasmine\Auth\Models\UserAbstract;
 
 class EloquentUserProvider extends BaseEloquentUserProvider
 {
 
+    protected array $config;
+
+    public function __construct(HasherContract $hasher, $model, array $config = [])
+    {
+        parent::__construct($hasher, $model);
+        $this->config = $config;
+    }
 
     /**
      * Retrieve a user by their unique identifier.
      *
      * @param mixed $identifier
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return Authenticatable|UserAbstract
      */
     public function retrieveById($identifier)
     {
-//        $model                                    = $this->createModel();
-        $model                                    = new User();
+
+        $class = '\\'.ltrim($this->config['jwt_model']??"\\RedJasmine\\Auth\\Models\\User", '\\');
+        $model                                    = new $class();
         $model->{$model->getAuthIdentifierName()} = $identifier;
-        // TODO 设置 JWTCustomClaims
         return $model;
-
-
-        return $this->newModelQuery($model)
-                    ->where($model->getAuthIdentifierName(), $identifier)
-                    ->first();
     }
 
-    /**
-     * Retrieve a user by their unique identifier and "remember me" token.
-     *
-     * @param mixed $identifier
-     * @param string $token
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function retrieveByToken($identifier, $token)
-    {
-        $model = $this->createModel();
-
-        $retrievedModel = $this->newModelQuery($model)->where(
-            $model->getAuthIdentifierName(), $identifier
-        )->first();
-
-        if (!$retrievedModel) {
-            return;
-        }
-
-        $rememberToken = $retrievedModel->getRememberToken();
-
-        return $rememberToken && hash_equals($rememberToken, $token)
-            ? $retrievedModel : null;
-
-
-    }
 
 }

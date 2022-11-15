@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
 
 
         \Illuminate\Support\Facades\Auth::provider('eloquent-red-jasmine', function ($app, array $config) {
-            return new EloquentUserProvider($app['hash'], $config['model']);
+            return new EloquentUserProvider($app['hash'], $config['model'],$config);
         });
 
         // Register the service the package provides.
