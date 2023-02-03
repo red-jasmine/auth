@@ -16,8 +16,20 @@ class EloquentUserProvider extends BaseEloquentUserProvider
 
     public function __construct(HasherContract $hasher, $model, array $config = [])
     {
+
         parent::__construct($hasher, $model);
         $this->config = $config;
+    }
+
+
+    /**
+     * Gets the name of the Eloquent user model.
+     *
+     * @return string
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**

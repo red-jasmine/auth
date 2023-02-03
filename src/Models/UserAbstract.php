@@ -2,23 +2,23 @@
 
 namespace RedJasmine\Auth\Models;
 
-
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\MustVerifyEmail;
-use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Liushoukun\LaravelProjectTools\Contracts\Owner;
+use Liushoukun\LaravelProjectTools\Contracts\User;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-use RedJasmine\Support\Contracts\BelongToOwner;
-use RedJasmine\Support\Contracts\User;
 
-abstract class UserAbstract implements JWTSubject, AuthenticatableContract, AuthorizableContract, User, BelongToOwner
+
+abstract class UserAbstract implements
+    JWTSubject, AuthenticatableContract, AuthorizableContract,
+    User, Owner
 {
     use Authenticatable, Authorizable;
+
     use SelfOwner;
+
 
     /**
      * The primary key for the model.
@@ -32,21 +32,22 @@ abstract class UserAbstract implements JWTSubject, AuthenticatableContract, Auth
      */
     protected string $userType = 'user';
 
-    public function getKeyName() : string
-    {
-
-        return $this->primaryKey;
-    }
 
     public function getJWTIdentifier()
     {
         return $this->getAuthIdentifier();
     }
 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
     public function getJWTCustomClaims() : array
     {
         return [];
     }
+
 
     /**
      * @return string
@@ -64,11 +65,6 @@ abstract class UserAbstract implements JWTSubject, AuthenticatableContract, Auth
     {
         $this->userType = $userType;
         return $this;
-    }
-
-    public function getType() : string|int
-    {
-        return 'user';
     }
 
     public function getUid() : string|int

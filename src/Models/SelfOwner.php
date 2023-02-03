@@ -2,10 +2,12 @@
 
 namespace RedJasmine\Auth\Models;
 
+use Liushoukun\LaravelProjectTools\Contracts\User;
+
 trait SelfOwner
 {
 
-    public function getOwner() : \RedJasmine\Support\Contracts\User
+    public function getOwner() : User
     {
         return $this;
     }
