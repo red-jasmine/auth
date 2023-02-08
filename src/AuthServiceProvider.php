@@ -35,9 +35,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/auth.php', 'red-jasmine.auth');
 
 
-        \Illuminate\Support\Facades\Auth::provider('eloquent-red-jasmine', function ($app, array $config) {
-            return new EloquentUserProvider($app['hash'], $config['model'],$config);
-        });
 
         // Register the service the package provides.
         $this->app->singleton('red-jasmine.auth', function ($app) {
