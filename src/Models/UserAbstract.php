@@ -2,22 +2,21 @@
 
 namespace RedJasmine\Auth\Models;
 
-use Illuminate\Auth\Authenticatable;
+
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Liushoukun\LaravelProjectTools\Contracts\Owner;
 use Liushoukun\LaravelProjectTools\Contracts\User;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-
-abstract class UserAbstract implements
-    JWTSubject, AuthenticatableContract, AuthorizableContract,
-    User, Owner
+abstract class UserAbstract extends Authenticatable implements
+    JWTSubject, AuthorizableContract,
+    User
 {
-    use Authenticatable, Authorizable;
+    use Authorizable;
 
-    use SelfOwner;
+
 
 
     /**
@@ -25,12 +24,21 @@ abstract class UserAbstract implements
      *
      * @var string
      */
-    protected string $primaryKey = 'id';
+    protected $primaryKey = 'id';
     /**
      * 用户类型
      * @var string
      */
     protected string $userType = 'user';
+
+    /**
+     * 所属人
+     * @return User|null
+     */
+    public function getOwner() : User|null
+    {
+        return null;
+    }
 
 
     public function getJWTIdentifier()
