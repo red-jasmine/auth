@@ -2,10 +2,24 @@
 
 namespace RedJasmine\Auth;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
+
+    protected $middlewareGroups = [
+
+
+        'user'   => [
+            'auth:user',
+
+        ],
+        'seller' => [
+            'auth:seller',
+        ],
+    ];
+
     /**
      * Perform post-registration booting of services.
      *
@@ -22,34 +36,6 @@ class AuthServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
-    }
-
-
-    /**
-     * Register any package services.
-     *
-     * @return void
-     */
-    public function register() : void
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/auth.php', 'red-jasmine.auth');
-
-
-
-        // Register the service the package provides.
-        $this->app->singleton('red-jasmine.auth', function ($app) {
-            return new Auth();
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [ 'red-jasmine.auth' ];
     }
 
     /**
@@ -81,5 +67,41 @@ class AuthServiceProvider extends ServiceProvider
 
         // Registering package commands.
         // $this->commands([]);
+    }
+
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
+    public function register() : void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/auth.php', 'red-jasmine.auth');
+
+
+        // 合并 auth 配置
+        config(Arr::dot(config('red-jasmine.auth', []), 'auth.'));
+
+        // Register the service the package provides.
+        $this->app->singleton('red-jasmine.auth', function ($app) {
+            return new Auth();
+        });
+
+
+        // 注册路由
+        $router = $this->app->make('router');
+        foreach ($this->middlewareGroups as $key => $middleware) {
+            $router->middlewareGroup($key, $middleware);
+        }
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [ 'red-jasmine.auth' ];
     }
 }
