@@ -9,9 +9,9 @@ return [
             'driver'   => 'jwt',
             'provider' => 'users',
         ],
-        'seller' => [
+        'shop' => [
             'driver'   => 'jwt',
-            'provider' => 'seller',
+            'provider' => 'shop',
         ],
     ],
 
@@ -20,10 +20,10 @@ return [
             'driver' => 'eloquent',
             'model'  => "RedJasmine\\User\\Models\\User",
         ],
-         'seller' => [
-             'driver' => 'eloquent',
-             'model'  => "RedJasmine\\User\\Models\\User",
-         ],
+        'shop'  => [
+            'driver' => 'eloquent',
+            'model'  => "RedJasmine\\User\\Models\\User",
+        ],
     ],
 
 ];
