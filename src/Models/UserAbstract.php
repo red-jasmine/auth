@@ -6,8 +6,8 @@ namespace RedJasmine\Auth\Models;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Liushoukun\LaravelProjectTools\Contracts\User;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 abstract class UserAbstract extends Authenticatable implements
     JWTSubject, AuthorizableContract,
