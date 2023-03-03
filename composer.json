@@ -16,9 +16,8 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "red-jasmine/support": "1.0.x-dev",
         "tymon/jwt-auth": "^2.0"
-
     },
     "require-dev": {
 
