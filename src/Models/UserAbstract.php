@@ -5,8 +5,9 @@ namespace RedJasmine\Auth\Models;
 
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Liushoukun\LaravelProjectTools\Contracts\User;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use RedJasmine\Support\Contracts\User;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 abstract class UserAbstract extends Authenticatable implements
@@ -28,14 +29,6 @@ abstract class UserAbstract extends Authenticatable implements
      */
     protected string $userType = 'user';
 
-    /**
-     * 所属人
-     * @return User|null
-     */
-    public function getOwner() : User|null
-    {
-        return null;
-    }
 
 
     public function getJWTIdentifier()
