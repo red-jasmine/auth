@@ -7,12 +7,12 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use RedJasmine\Support\Contracts\User;
+use RedJasmine\Support\Contracts\UserInterface;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 abstract class UserAbstract extends Authenticatable implements
     JWTSubject, AuthorizableContract,
-    User
+    UserInterface
 {
     use Authorizable;
 
@@ -68,6 +68,16 @@ abstract class UserAbstract extends Authenticatable implements
     public function getUid() : string|int
     {
         return $this->getAuthIdentifier();
+    }
+
+    public function getNickname() : ?string
+    {
+       return  $this->nickname??'';
+    }
+
+    public function getAvatar() : ?string
+    {
+        return  $this->avatar??'';
     }
 
 
