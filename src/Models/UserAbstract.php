@@ -30,7 +30,6 @@ abstract class UserAbstract extends Authenticatable implements
     protected string $userType = 'user';
 
 
-
     public function getJWTIdentifier()
     {
         return $this->getAuthIdentifier();
@@ -57,6 +56,7 @@ abstract class UserAbstract extends Authenticatable implements
 
     /**
      * @param string $userType
+     *
      * @return UserAbstract
      */
     public function setUserType(string $userType) : UserAbstract
@@ -65,19 +65,19 @@ abstract class UserAbstract extends Authenticatable implements
         return $this;
     }
 
-    public function getUid() : string|int
+    public function getUid() : int
     {
-        return $this->getAuthIdentifier();
+        return (int)$this->getAuthIdentifier();
     }
 
     public function getNickname() : ?string
     {
-       return  $this->nickname??'';
+        return $this->nickname ?? '';
     }
 
     public function getAvatar() : ?string
     {
-        return  $this->avatar??'';
+        return $this->avatar ?? '';
     }
 
 
