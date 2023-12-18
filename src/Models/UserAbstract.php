@@ -49,7 +49,7 @@ abstract class UserAbstract extends Authenticatable implements
     /**
      * @return string
      */
-    public function getUserType() : string
+    public function getType() : string
     {
         return $this->userType;
     }
@@ -65,7 +65,7 @@ abstract class UserAbstract extends Authenticatable implements
         return $this;
     }
 
-    public function getUid() : int
+    public function getID() : int
     {
         return (int)$this->getAuthIdentifier();
     }
